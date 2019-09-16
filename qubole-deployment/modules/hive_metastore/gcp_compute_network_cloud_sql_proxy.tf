@@ -9,5 +9,6 @@
 
 resource "google_compute_network" "cloud_sql_proxy_vpc" {
   name = "cloud-sql-proxy-vpc"
+  project = var.data_lake_project
   auto_create_subnetworks = false
 }

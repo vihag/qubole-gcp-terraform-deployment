@@ -12,8 +12,8 @@ Creates a Custom Role to work with Google Cloud Storage to
 
 resource "google_project_iam_custom_role" "qubole_custom_storage_role" {
   project = var.data_lake_project
-  role_id = var.qubole_custom_storage_role_id
-  title = var.qubole_custom_storage_role_title
+  role_id = "${var.qubole_custom_storage_role_id}_${var.deployment_suffix}"
+  title = "${var.qubole_custom_storage_role_id}_${var.deployment_suffix}"
   description = "Custom storage role for Qubole to read/write VM logs, query results/logs/resources to dedicated bucket"
   permissions = [
     "storage.buckets.get",

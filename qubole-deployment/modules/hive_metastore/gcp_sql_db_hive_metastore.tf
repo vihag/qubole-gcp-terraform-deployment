@@ -24,15 +24,12 @@ Creates a Cloud SQL Instance to host the Hive Metastore. It
  2. Terraform DOES NOT SUPPORT running an initialization script, hence running the HIVE Metastore DDL will have to be a manual step
 */
 
-resource "random_id" "db_name_suffix" {
-  byte_length = 4
-}
-
 resource "google_sql_database_instance" "cloud_sql_for_hive_metastore" {
   provider = "google-beta"
 
-  name = "private-instance-${random_id.db_name_suffix.hex}"
+  name = "hive-metastore-instance-${var.deployment_suffix}"
   region = var.data_lake_project_region
+  project = var.data_lake_project
   database_version = "MYSQL_5_7"
   depends_on = [
     "google_service_networking_connection.cloud_sql_proxy_svc_networking_connection"
@@ -52,6 +49,7 @@ resource "google_sql_database_instance" "cloud_sql_for_hive_metastore" {
 
 resource "google_sql_database" "hive_metastore_db" {
   name = "hive"
+  project = var.data_lake_project
   instance = google_sql_database_instance.cloud_sql_for_hive_metastore.name
   depends_on = [
     "google_sql_database_instance.cloud_sql_for_hive_metastore"
@@ -60,6 +58,7 @@ resource "google_sql_database" "hive_metastore_db" {
 
 resource "google_sql_user" "hive_metastore_db_user" {
   name = var.hive_user_name
+  project = var.data_lake_project
   instance = google_sql_database_instance.cloud_sql_for_hive_metastore.name
   host = "%"
   password = var.hive_user_password

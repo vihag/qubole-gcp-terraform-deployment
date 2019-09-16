@@ -21,6 +21,7 @@ Creates a Google Compute Engine VM that will act as a Bastion Host in the Qubole
 
 resource "google_compute_instance" "qubole_bastion_host" {
   name = "qubole-bastion-host"
+  project = var.data_lake_project
   machine_type = var.qubole_bastion_host_vm_type
   zone = var.qubole_bastion_host_vm_zone
 
@@ -31,10 +32,6 @@ resource "google_compute_instance" "qubole_bastion_host" {
     initialize_params {
       image = "debian-cloud/debian-9"
     }
-  }
-
-  // Local SSD disk
-  scratch_disk {
   }
 
   network_interface {

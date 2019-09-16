@@ -19,26 +19,34 @@ Creates a Google Cloud Storage Bucket that will act as the "default location" fo
 */
 
 resource "google_storage_bucket" "qubole_defloc_bucket" {
-  name = "qubole_defloc"
+  name = "qubole_default_loc_${var.deployment_suffix}"
   project = var.data_lake_project
   location = var.data_lake_project_region
-
+  force_destroy = true
+  bucket_policy_only = true
 }
 
-data "google_iam_policy" "qubole_defloc_bucket_policy_data" {
-  binding {
-    role = google_project_iam_custom_role.qubole_custom_storage_role.id
-    #Created as part of account IAM setup
-    members = [
-      "serviceAccount:${google_service_account.qubole_instance_service_acc.email}",
-      "serviceAccount:${google_service_account.qubole_compute_service_acc.email}"]
-  }
-}
-
-resource "google_storage_bucket_iam_policy" "qubole_defloc_bucket_policy" {
+resource "google_storage_bucket_iam_member" "qubole_defloc_bucket_policy_isa" {
   bucket = google_storage_bucket.qubole_defloc_bucket.name
-  policy_data = data.google_iam_policy.qubole_defloc_bucket_policy_data.policy_data
+  role = google_project_iam_custom_role.qubole_custom_storage_role.id
+  member = "serviceAccount:${google_service_account.qubole_instance_service_acc.email}"
 }
+
+resource "google_storage_bucket_iam_member" "qubole_defloc_bucket_policy_csa" {
+  bucket = google_storage_bucket.qubole_defloc_bucket.name
+  role = google_project_iam_custom_role.qubole_custom_storage_role.id
+  member = "serviceAccount:${google_service_account.qubole_compute_service_acc.email}"
+}
+
+/*resource "google_storage_bucket_iam_binding" "qubole_defloc_bucket_policy_binding" {
+  bucket = google_storage_bucket.qubole_defloc_bucket.name
+  role = google_project_iam_custom_role.qubole_custom_storage_role.id
+
+  members = [
+    "serviceAccount:${google_service_account.qubole_compute_service_acc.email}",
+    "serviceAccount:${google_service_account.qubole_instance_service_acc.email}"
+  ]
+}*/
 
 output "qubole_defloc_bucket_name" {
   value = google_storage_bucket.qubole_defloc_bucket.name

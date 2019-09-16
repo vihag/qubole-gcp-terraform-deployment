@@ -18,4 +18,7 @@ resource "google_compute_network_peering" "peer_qubole_vpc_cloudsql_proxy" {
   name = "peer-qubole-vpc-cloudsql-proxy"
   network = var.qubole_dedicated_vpc
   peer_network = google_compute_network.cloud_sql_proxy_vpc.self_link
+  depends_on = [
+    google_compute_network_peering.peer_cloudsql_proxy_qubole_vpc
+  ]
 }

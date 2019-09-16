@@ -10,6 +10,7 @@ Creates a Firewall Rule that
 
 resource "google_compute_firewall" "proxy_ingress_from_bastion" {
     name    = "proxy-ingress-from-bastion"
+    project = var.data_lake_project
     network = google_compute_network.cloud_sql_proxy_vpc.self_link
 
     allow {
@@ -23,6 +24,7 @@ resource "google_compute_firewall" "proxy_ingress_from_bastion" {
 
 resource "google_compute_firewall" "proxy_ingress_from_qubole_private_subnet" {
     name    = "proxy-ingress-from-qubole-private-subnet"
+    project = var.data_lake_project
     network = google_compute_network.cloud_sql_proxy_vpc.self_link
 
     allow {

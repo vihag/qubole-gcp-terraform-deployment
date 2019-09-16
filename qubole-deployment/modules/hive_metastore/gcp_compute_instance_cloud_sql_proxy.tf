@@ -11,34 +11,32 @@ Creates a Google Compute Engine VM that will host a Cloud SQL Proxy process to c
 */
 
 resource "google_compute_instance" "cloud_sq_proxy_host" {
-    name         = "cloud-sql-proxy-host"
-    machine_type = var.cloud_sql_proxy_host_vm_type
-    zone         = var.cloud_sql_proxy_host_vm_zone
+  name = "cloud-sql-proxy-host"
+  project = var.data_lake_project
+  machine_type = var.cloud_sql_proxy_host_vm_type
+  zone = var.cloud_sql_proxy_host_vm_zone
 
-    tags = ["cloud-sql-proxy-host"]
+  tags = [
+    "cloud-sql-proxy-host"]
 
-    boot_disk {
-        initialize_params {
-            image = "debian-cloud/debian-9"
-        }
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9"
     }
+  }
 
-    // Local SSD disk
-    scratch_disk {
-    }
+  network_interface {
+    network = google_compute_network.cloud_sql_proxy_vpc.self_link
+    subnetwork = google_compute_subnetwork.cloud_sql_proxy_private_subnetwork.self_link
+    network_ip = google_compute_address.cloud_sql_proxy_internal_ip.address
+  }
 
-    network_interface {
-        network = google_compute_network.cloud_sql_proxy_vpc.self_link
-        subnetwork = google_compute_subnetwork.cloud_sql_proxy_private_subnetwork.self_link
-        network_ip = google_compute_address.cloud_sql_proxy_internal_ip.address
-        access_config {
-            //No public NIC
-        }
-    }
-
-    metadata = {
-        cloud_sql_instance = google_sql_database_instance.cloud_sql_for_hive_metastore.name
-        startup-script = file("${path.module}/scripts/cloud_sql_proxy_startup.sh")
-    }
+  metadata = {
+    project_name = var.data_lake_project
+    region = var.data_lake_project_region
+    cloud_sql_instance = google_sql_database_instance.cloud_sql_for_hive_metastore.name
+    credentials_data = file("${path.module}/../../google_credentials/terraform_credentials.json")
+    startup-script = file("${path.module}/scripts/cloud_sql_proxy_startup.sh")
+  }
 
 }

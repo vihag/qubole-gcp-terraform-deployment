@@ -8,7 +8,8 @@ Creates a Firewall Rule that
 */
 
 resource "google_compute_firewall" "bastion_ingress_from_qubole_nat" {
-  name = "bastion-ingress-from-bastion"
+  name = "bastion-ingress-from-qubole"
+  project = var.data_lake_project
   network = google_compute_network.qubole_dedicated_vpc.self_link
 
   allow {
@@ -25,6 +26,7 @@ resource "google_compute_firewall" "bastion_ingress_from_qubole_nat" {
 
 resource "google_compute_firewall" "bastion_ingress_from_qubole_private_subnet" {
   name = "bastion-ingress-from-qubole-private-subnet"
+  project = var.data_lake_project
   network = google_compute_network.qubole_dedicated_vpc.self_link
 
   allow {

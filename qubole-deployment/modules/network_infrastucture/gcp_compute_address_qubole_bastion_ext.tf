@@ -8,6 +8,7 @@ Creates a Static External IP address for
 
 resource "google_compute_address" "qubole_bastion_host_external_ip" {
   name = "qubole-bastion-external-ip"
+  project = var.data_lake_project
   region = var.data_lake_project_region
 }
 

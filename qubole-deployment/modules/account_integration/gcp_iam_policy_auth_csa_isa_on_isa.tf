@@ -21,6 +21,6 @@ data "google_iam_policy" "auth_csa_isa_on_isa_policy_data" {
 }
 
 resource "google_service_account_iam_policy" "auth_csa_isa_on_isa_policy" {
-  service_account_id = google_service_account.qubole_instance_service_acc.name
+  service_account_id = google_service_account.qubole_instance_service_acc.id
   policy_data = data.google_iam_policy.auth_csa_isa_on_isa_policy_data.policy_data
 }

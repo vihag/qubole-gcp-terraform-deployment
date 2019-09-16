@@ -8,6 +8,7 @@ Creates a SubNetwork in the Qubole Dedicated VPC.
 
 resource "google_compute_subnetwork" "qubole_vpc_private_subnetwork" {
   name = "qubole-vpc-private-subnetwork"
+  project = var.data_lake_project
   ip_cidr_range = "10.3.0.0/24"
   region = var.data_lake_project_region
   network = google_compute_network.qubole_dedicated_vpc.self_link

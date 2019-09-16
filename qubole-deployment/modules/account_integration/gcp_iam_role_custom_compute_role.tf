@@ -10,12 +10,14 @@ Creates a Custom Role to work with Compute Engine to
  1. The customer should ensure that the listed permissions are not taken away as it might result in loss of functionality
 */
 
+
 resource "google_project_iam_custom_role" "qubole_custom_compute_role" {
   project = var.data_lake_project
-  role_id = var.qubole_custom_compute_role_id
-  title = var.qubole_custom_compute_role_title
+  role_id = "${var.qubole_custom_compute_role_id}_${var.deployment_suffix}"
+  title = "${var.qubole_custom_compute_role_title}_${var.deployment_suffix}"
   description = "Custom compute role for Qubole to orchestrate VMs"
   permissions = [
+    "compute.addresses.use",
     "compute.disks.create",
     "compute.disks.delete",
     "compute.disks.get",

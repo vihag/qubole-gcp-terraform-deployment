@@ -8,6 +8,7 @@ Creates a Static Internal IP address for
 
 resource "google_compute_address" "cloud_sql_proxy_internal_ip" {
   name = "cloud-sql-proxy-internal-ip"
+  project = var.data_lake_project
   region = var.data_lake_project_region
   address_type = "INTERNAL"
   #purpose = "GCE_ENDPOINT"

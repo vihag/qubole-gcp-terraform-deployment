@@ -8,6 +8,7 @@ Creates a Static Internal IP address for
 
 resource "google_compute_address" "qubole_bastion_host_internal_ip" {
   name = "qubole-bastion-internal-ip"
+  project = var.data_lake_project
   region = var.data_lake_project_region
   address_type = "INTERNAL"
   #purpose = "GCE_ENDPOINT"
