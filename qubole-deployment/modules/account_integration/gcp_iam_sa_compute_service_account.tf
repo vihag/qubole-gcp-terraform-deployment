@@ -18,5 +18,5 @@ resource "google_service_account" "qubole_compute_service_acc" {
 }
 
 output "qubole_compute_service_account" {
-  value = google_service_account.qubole_compute_service_acc.account_id
+  value = google_service_account.qubole_compute_service_acc.email
 }

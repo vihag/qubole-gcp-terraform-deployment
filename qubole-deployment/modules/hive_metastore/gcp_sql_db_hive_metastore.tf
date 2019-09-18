@@ -48,7 +48,7 @@ resource "google_sql_database_instance" "cloud_sql_for_hive_metastore" {
 }
 
 resource "google_sql_database" "hive_metastore_db" {
-  name = "hive"
+  name = var.hive_db_name
   project = var.data_lake_project
   instance = google_sql_database_instance.cloud_sql_for_hive_metastore.name
   depends_on = [
@@ -65,4 +65,20 @@ resource "google_sql_user" "hive_metastore_db_user" {
   depends_on = [
     "google_sql_database.hive_metastore_db"
   ]
+}
+
+output "hive_metastore_instance_ip" {
+  value = google_sql_database_instance.cloud_sql_for_hive_metastore.private_ip_address
+}
+
+output "hive_metastore_schema" {
+  value = var.hive_db_name
+}
+
+output "hive_metastore_user" {
+  value = var.hive_user_name
+}
+
+output "hive_metastore_user_password" {
+  value = var.hive_user_password
 }

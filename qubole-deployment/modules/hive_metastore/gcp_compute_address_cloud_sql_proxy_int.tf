@@ -14,3 +14,8 @@ resource "google_compute_address" "cloud_sql_proxy_internal_ip" {
   #purpose = "GCE_ENDPOINT"
   subnetwork = google_compute_subnetwork.cloud_sql_proxy_private_subnetwork.self_link
 }
+
+
+output "cloud_sql_proxy_networkIP" {
+  value = google_compute_address.cloud_sql_proxy_internal_ip.address
+}

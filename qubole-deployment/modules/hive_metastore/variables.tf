@@ -45,6 +45,10 @@ variable "hive_user_password" {
   default = "hive_user_password!23"
 }
 
+variable "hive_db_name" {
+  default = "hive"
+}
+
 variable "qubole_dedicated_vpc" {
   default = "/projects/qubole-on-gcp/networks/qubole-dedicated-vpc"
 }
