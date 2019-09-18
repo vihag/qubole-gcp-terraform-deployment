@@ -34,9 +34,13 @@ resource "google_compute_instance" "cloud_sq_proxy_host" {
   metadata = {
     project_name = var.data_lake_project
     region = var.data_lake_project_region
+    hive_user = var.hive_user_name
+    hive_user_password = var.hive_user_password
+    hive_db = var.hive_db_name
     cloud_sql_instance = google_sql_database_instance.cloud_sql_for_hive_metastore.name
     credentials_data = file("${path.module}/../../google_credentials/terraform_credentials.json")
     startup-script = file("${path.module}/scripts/cloud_sql_proxy_startup.sh")
   }
 
 }
+

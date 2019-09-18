@@ -18,9 +18,9 @@ variable "qubole_bastion_host_vm_zone" {
 }
 
 variable "qubole_public_key" {
-  default = "get from account"
+  default = "<get your own>"
 }
 
 variable "account_ssh_key" {
-  default = "get from account"
+  default = "<get your own>"
 }
