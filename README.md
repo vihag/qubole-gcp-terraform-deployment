@@ -1,4 +1,4 @@
-# Cloud Deployment Manager: Qubole Deployment 
+# Terraform: Qubole Deployment 
 
 <h2>What is <a href="https://www.terraform.io/">Terraform</a>?</h2>
 <p>
