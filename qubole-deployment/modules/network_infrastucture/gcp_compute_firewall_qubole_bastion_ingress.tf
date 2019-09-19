@@ -18,7 +18,7 @@ resource "google_compute_firewall" "bastion_ingress_from_qubole_nat" {
       "22"]
   }
   source_ranges = [
-    "34.73.1.130/32"]
+    var.qubole_tunnel_nat]
   target_tags = [
     "qubole-bastion-host"]
 

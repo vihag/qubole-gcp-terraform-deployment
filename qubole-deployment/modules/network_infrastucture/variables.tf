@@ -17,6 +17,10 @@ variable "qubole_bastion_host_vm_zone" {
   default = "asia-southeast1-a"
 }
 
+variable "qubole_tunnel_nat" {
+  default = "34.73.1.130/32"
+}
+
 variable "qubole_public_key" {
   default = "<get your own>"
 }
