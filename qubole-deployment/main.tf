@@ -50,6 +50,10 @@ output "qubole_dedicated_bastion" {
   value = module.network_infrastructure.qubole_bastion_external_ip
 }
 
+output "qubole_bastion_user" {
+  value = "bastion-user"
+}
+
 output "hive_metastore_ip" {
   value = module.hive_metastore.cloud_sql_proxy_networkIP
 }
