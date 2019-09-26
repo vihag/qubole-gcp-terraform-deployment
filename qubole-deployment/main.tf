@@ -1,11 +1,19 @@
+variable "data_lake_project" {
+  default = "qubole-on-gcp"
+}
+
+variable "data_lake_project_number" {
+  default = "25786460097"
+}
+
 provider "google" {
   credentials = file("${path.module}/google_credentials/terraform_credentials.json")
-  project = "qubole-on-gcp"
+  project = var.data_lake_project
 }
 
 provider "google-beta" {
   credentials = file("${path.module}/google_credentials/terraform_credentials.json")
-  project = "qubole-on-gcp"
+  project = var.data_lake_project
 }
 
 resource "random_id" "deployment_suffix" {
@@ -15,11 +23,15 @@ resource "random_id" "deployment_suffix" {
 module "account_integration" {
   source = "./modules/account_integration"
   deployment_suffix = random_id.deployment_suffix.hex
+  data_lake_project = var.data_lake_project
+  data_lake_project_number = var.data_lake_project_number
 }
 
 module "network_infrastructure" {
   source = "./modules/network_infrastucture"
   deployment_suffix = random_id.deployment_suffix.hex
+  data_lake_project = var.data_lake_project
+  data_lake_project_number = var.data_lake_project_number
 }
 
 module "hive_metastore" {
@@ -28,6 +40,8 @@ module "hive_metastore" {
   qubole_dedicated_vpc = module.network_infrastructure.qubole_dedicated_vpc_link
   qubole_bastion_internal_ip = module.network_infrastructure.qubole_bastion_internal_ip
   qubole_private_subnet_cidr = module.network_infrastructure.qubole_vpc_private_subnetwork_cidr
+  data_lake_project = var.data_lake_project
+  data_lake_project_number = var.data_lake_project_number
 }
 
 output "compute_service_account" {

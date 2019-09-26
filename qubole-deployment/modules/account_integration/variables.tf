@@ -2,7 +2,9 @@ variable "deployment_suffix" {
 }
 
 variable "data_lake_project" {
-  default = "qubole-on-gcp"
+}
+
+variable "data_lake_project_number" {
 }
 
 variable "data_lake_project_region" {

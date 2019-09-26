@@ -2,7 +2,9 @@ variable "deployment_suffix" {
 }
 
 variable "data_lake_project" {
-  default = "qubole-on-gcp"
+}
+
+variable "data_lake_project_number" {
 }
 
 variable "data_lake_project_region" {
@@ -22,9 +24,9 @@ variable "qubole_tunnel_nat" {
 }
 
 variable "qubole_public_key" {
-  default = "<get your own>"
+  default = "get from account"
 }
 
 variable "account_ssh_key" {
-  default = "<get your own>"
+  default = "get from account"
 }
